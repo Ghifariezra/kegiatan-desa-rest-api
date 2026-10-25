@@ -211,33 +211,33 @@ File SQL ada di folder `database`:
 ```
 kegiatan-desa-rest-api/
 ├── database/
-│   ├── schema.sql                     membuat tabel dan relasi
-│   ├── seed.sql                       data contoh
-│   ├── reset.sql                      menghapus semua tabel
-│   └── diagram.dbml                   diagram untuk dbdiagram.io
+│   ├── schema.sql                     # membuat tabel dan relasi
+│   ├── seed.sql                       # data contoh
+│   ├── reset.sql                      # menghapus semua tabel
+│   └── diagram.dbml                   # diagram untuk dbdiagram.io
 ├── postman/
 │   └── API - Desa Sukamaju.postman_collection.json
 ├── src/
-│   ├── index.js                       titik awal server
+│   ├── index.js                       # titik awal server
 │   ├── config/
-│   │   ├── env.js                     memuat file .env
-│   │   └── db.js                      koneksi (pool) ke PostgreSQL
-│   ├── core/                          kode dasar yang dipakai semua resource
-│   │   ├── BaseController.js          handler CRUD generik
-│   │   ├── BaseService.js             query CRUD generik ke database
-│   │   ├── createCrudRouter.js        membuat 5 route CRUD dari sebuah controller
-│   │   ├── AppError.js                kelas error dengan status code
-│   │   └── dbError.js                 menerjemahkan error PostgreSQL ke pesan yang jelas
+│   │   ├── env.js                     # memuat file .env
+│   │   └── db.js                      # koneksi (pool) ke PostgreSQL
+│   ├── core/                          # kode dasar yang dipakai semua resource
+│   │   ├── BaseController.js          # handler CRUD generik
+│   │   ├── BaseService.js             # query CRUD generik ke database
+│   │   ├── createCrudRouter.js        # membuat 5 route CRUD dari sebuah controller
+│   │   ├── AppError.js                # kelas error dengan status code
+│   │   └── dbError.js                 # menerjemahkan error PostgreSQL ke pesan yang jelas
 │   ├── middlewares/
-│   │   ├── validate.js                validasi params dan body dengan Zod
-│   │   └── errorHandler.js            handler 404 dan error global
-│   ├── schemas/                       aturan validasi (Zod) per resource
-│   ├── services/                      akses database dan aturan bisnis per resource
-│   ├── controllers/                   controller per resource
+│   │   ├── validate.js                # validasi params dan body dengan Zod
+│   │   └── errorHandler.js            # handler 404 dan error global
+│   ├── schemas/                       # aturan validasi (Zod) per resource
+│   ├── services/                      # akses database dan aturan bisnis per resource
+│   ├── controllers/                   # controller per resource
 │   └── routes/
-│       ├── index.js                   menggabungkan semua route di bawah /api
-│       └── *.routes.js                route per resource
-├── .env.example                       contoh isi file .env
+│       ├── index.js                   # menggabungkan semua route di bawah /api
+│       └── *.routes.js                # route per resource
+├── .env.example                       # contoh isi file .env
 ├── .gitignore
 ├── package.json
 └── package-lock.json
