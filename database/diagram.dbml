@@ -1,0 +1,115 @@
+Project kegiatan_desa {
+  database_type: 'PostgreSQL'
+  Note: 'Sistem Informasi Kegiatan Desa Sukamaju'
+}
+
+Table "rt" {
+  "id" SERIAL [pk, increment]
+  "nomor_rt" VARCHAR(3) [unique, not null]
+  "nama_ketua" VARCHAR(100) [not null]
+  "created_at" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+}
+
+Table "warga" {
+  "id" SERIAL [pk, increment]
+  "rt_id" INTEGER [not null]
+  "nik" CHAR(16) [unique, not null]
+  "nama_lengkap" VARCHAR(100) [not null]
+  "jenis_kelamin" CHAR(1) [not null]
+  "tanggal_lahir" DATE [not null]
+  "no_hp" VARCHAR(15)
+  "alamat" TEXT
+  "created_at" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+
+  Checks {
+    `jenis_kelamin IN ('L', 'P')` [name: 'chk_warga_jenis_kelamin']
+  }
+}
+
+Table "akun_warga" {
+  "id" SERIAL [pk, increment]
+  "warga_id" INTEGER [unique, not null]
+  "email" VARCHAR(100) [unique, not null]
+  "password_hash" VARCHAR(255) [not null]
+  "peran" VARCHAR(20) [not null, default: 'warga']
+  "created_at" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+
+  Checks {
+    `peran IN ('warga', 'admin')` [name: 'chk_akun_peran']
+  }
+}
+
+Table "kategori_kegiatan" {
+  "id" SERIAL [pk, increment]
+  "nama_kategori" VARCHAR(50) [unique, not null]
+  "deskripsi" TEXT
+}
+
+Table "lokasi" {
+  "id" SERIAL [pk, increment]
+  "nama_lokasi" VARCHAR(100) [not null]
+  "alamat" TEXT [not null]
+}
+
+Table "kegiatan" {
+  "id" SERIAL [pk, increment]
+  "kategori_id" INTEGER [not null]
+  "lokasi_id" INTEGER [not null]
+  "nama_kegiatan" VARCHAR(150) [not null]
+  "deskripsi" TEXT
+  "tanggal" DATE [not null]
+  "jam_mulai" TIME [not null]
+  "jam_selesai" TIME [not null]
+  "kuota" INTEGER [not null]
+  "status" VARCHAR(20) [not null, default: 'dijadwalkan']
+  "created_at" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+  "updated_at" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+
+  Checks {
+    `kuota > 0` [name: 'chk_kegiatan_kuota']
+    `jam_selesai > jam_mulai` [name: 'chk_kegiatan_jam']
+    `status IN ('dijadwalkan', 'berlangsung', 'selesai', 'dibatalkan')` [name: 'chk_kegiatan_status']
+  }
+}
+
+Table "pendaftaran_kegiatan" {
+  "id" SERIAL [pk, increment]
+  "warga_id" INTEGER [not null]
+  "kegiatan_id" INTEGER [not null]
+  "tanggal_daftar" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+  "status_kehadiran" VARCHAR(20) [not null, default: 'terdaftar']
+
+  Checks {
+    `status_kehadiran IN ('terdaftar', 'hadir', 'tidak_hadir')` [name: 'chk_pendaftaran_status']
+  }
+
+  Indexes {
+    (warga_id, kegiatan_id) [unique, name: "uq_pendaftaran_warga_kegiatan"]
+  }
+}
+
+Table "laporan_kegiatan" {
+  "id" SERIAL [pk, increment]
+  "kegiatan_id" INTEGER [unique, not null]
+  "ringkasan" TEXT [not null]
+  "jumlah_hadir" INTEGER [not null, default: 0]
+  "created_at" TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+
+  Checks {
+    `jumlah_hadir >= 0` [name: 'chk_laporan_jumlah_hadir']
+  }
+}
+
+Ref "fk_warga_rt":"rt"."id" < "warga"."rt_id" [delete: restrict]
+
+Ref "fk_akun_warga":"warga"."id" - "akun_warga"."warga_id" [delete: cascade]
+
+Ref "fk_kegiatan_kategori":"kategori_kegiatan"."id" < "kegiatan"."kategori_id" [delete: restrict]
+
+Ref "fk_kegiatan_lokasi":"lokasi"."id" < "kegiatan"."lokasi_id" [delete: restrict]
+
+Ref "fk_pendaftaran_warga":"warga"."id" < "pendaftaran_kegiatan"."warga_id" [delete: cascade]
+
+Ref "fk_pendaftaran_kegiatan":"kegiatan"."id" < "pendaftaran_kegiatan"."kegiatan_id" [delete: cascade]
+
+Ref "fk_laporan_kegiatan":"kegiatan"."id" - "laporan_kegiatan"."kegiatan_id" [delete: cascade]
