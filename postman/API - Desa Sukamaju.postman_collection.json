@@ -1,0 +1,211 @@
+{
+  "info": {
+    "_postman_id": "c6e1bcc6-cb00-4d5f-8a19-9a563f664eac",
+    "name": "API - Desa Sukamaju",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "30110966"
+  },
+  "item": [
+    {
+      "name": "Akun Warga",
+      "item": [
+        {
+          "name": "Semua Akun Warga",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const schema = JSON.parse(pm.collectionVariables.get(\"AWALL_jsonSchema\"));\r\nconst jsonData = pm.response.json();\r\nconst list = Array.isArray(jsonData.data) ? jsonData.data : [];\r\n\r\nconst JUMLAH_SEED = 3;\r\nconst seedPertama = {\r\n    id: 1,\r\n    warga_id: 1,\r\n    nama_lengkap: \"Agus Santoso\",\r\n    email: \"agus.santoso@contoh.id\",\r\n    peran: \"admin\"\r\n};\r\n\r\nconst bacaJson = (nama) => {\r\n    try {\r\n        return JSON.parse(pm.collectionVariables.get(nama));\r\n    } catch (e) {\r\n        return null;\r\n    }\r\n};\r\n\r\nconst akunId = Number(pm.collectionVariables.get(\"akun_id\"));\r\nconst adaAkunBaru = Number.isInteger(akunId) && akunId > 0;\r\nconst expected = bacaJson(\"akun_terakhir\");\r\nconst akunBaru = list.find((item) => item.id === akunId);\r\nconst terakhir = list[list.length - 1];\r\n\r\npm.test(\"Status code harus 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Body sesuai JSON Schema\", function () {\r\n    pm.response.to.have.jsonSchema(schema);\r\n});\r\n\r\npm.test(\"status bernilai success\", function () {\r\n    pm.expect(jsonData.status).to.eql(\"success\");\r\n});\r\n\r\npm.test(\"Content-Type berupa JSON\", function () {\r\n    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r\n});\r\n\r\npm.test(\"data berupa array dan tidak kosong\", function () {\r\n    pm.expect(jsonData.data).to.be.an(\"array\");\r\n    pm.expect(jsonData.data).to.not.be.empty;\r\n});\r\n\r\npm.test(\"total sama dengan jumlah data\", function () {\r\n    pm.expect(jsonData.total).to.eql(list.length);\r\n});\r\n\r\npm.test(\"Data pertama adalah akun seed (id 1)\", function () {\r\n    pm.expect(list[0]).to.include(seedPertama);\r\n});\r\n\r\nif (adaAkunBaru) {\r\n    pm.test(\"Akun hasil POST ada di daftar\", function () {\r\n        pm.expect(akunBaru, `akun dengan id ${akunId} tidak ditemukan`).to.not.be.undefined;\r\n    });\r\n\r\n    pm.test(\"Akun hasil POST adalah data terakhir\", function () {\r\n        pm.expect(terakhir.id).to.eql(akunId);\r\n    });\r\n\r\n    pm.test(\"Isi akun sesuai data terbaru (hasil POST/PUT)\", function () {\r\n        pm.expect(expected, \"akun_terakhir kosong, jalankan POST dulu\").to.not.be.null;\r\n        pm.expect(akunBaru).to.eql(expected);\r\n    });\r\n\r\n    pm.test(\"Jumlah data bertambah dari seed\", function () {\r\n        pm.expect(list.length).to.be.at.least(JUMLAH_SEED + 1);\r\n    });\r\n} else {\r\n    pm.test(\"Belum ada akun baru: jumlah data sesuai seed\", function () {\r\n        pm.expect(list.length).to.eql(JUMLAH_SEED);\r\n    });\r\n}\r\n\r\npm.test(\"Data terurut berdasarkan id (naik)\", function () {\r\n    const ids = list.map((item) => item.id);\r\n    const sorted = [...ids].sort((a, b) => a - b);\r\n    pm.expect(ids).to.eql(sorted);\r\n});\r\n\r\npm.test(\"Setiap data memiliki kolom lengkap dan peran valid\", function () {\r\n    list.forEach((item) => {\r\n        pm.expect(item).to.have.all.keys(\r\n            \"id\", \"warga_id\", \"nama_lengkap\", \"email\", \"peran\", \"created_at\"\r\n        );\r\n        pm.expect(item.peran).to.be.oneOf([\"warga\", \"admin\"]);\r\n    });\r\n});\r\n\r\npm.test(\"Email setiap akun unik\", function () {\r\n    const emails = list.map((item) => item.email);\r\n    pm.expect(new Set(emails).size).to.eql(emails.length);\r\n});\r\n\r\npm.test(\"warga_id setiap akun unik (relasi one to one)\", function () {\r\n    const ids = list.map((item) => item.warga_id);\r\n    pm.expect(new Set(ids).size).to.eql(ids.length);\r\n});\r\n\r\npm.test(\"password dan password_hash tidak bocor\", function () {\r\n    list.forEach((item) => {\r\n        pm.expect(item).to.not.have.property(\"password\");\r\n        pm.expect(item).to.not.have.property(\"password_hash\");\r\n    });\r\n});\r\n\r\npm.test(\"Response time di bawah 500 ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(500);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{ENDPOINT_API}}/akun-warga",
+              "host": [
+                "{{ENDPOINT_API}}"
+              ],
+              "path": [
+                "akun-warga"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Akun Warga Per ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const schema = JSON.parse(pm.collectionVariables.get(\"AWID_jsonSchema\"));\r\nconst jsonData = pm.response.json();\r\nconst data = jsonData.data || {};\r\nconst idDiUrl = Number(\r\n    pm.variables.replaceIn(pm.request.url.path[pm.request.url.path.length - 1])\r\n);\r\n\r\n// Kolom stabil data seed (created_at sengaja tidak dibandingkan)\r\nconst SEED = {\r\n    1: { id: 1, warga_id: 1, nama_lengkap: \"Agus Santoso\", email: \"agus.santoso@contoh.id\", peran: \"admin\" },\r\n    2: { id: 2, warga_id: 2, nama_lengkap: \"Siti Rahmawati\", email: \"siti.rahmawati@contoh.id\", peran: \"warga\" },\r\n    3: { id: 3, warga_id: 4, nama_lengkap: \"Dewi Lestari\", email: \"dewi.lestari@contoh.id\", peran: \"warga\" }\r\n};\r\n\r\nlet akunTerakhir = null;\r\ntry {\r\n    akunTerakhir = JSON.parse(pm.collectionVariables.get(\"akun_terakhir\"));\r\n} catch (e) {\r\n    akunTerakhir = null;\r\n}\r\nconst akunId = Number(pm.collectionVariables.get(\"akun_id\"));\r\n\r\nlet expected = null;\r\nlet sumber = \"tidak ada pembanding\";\r\nif (idDiUrl === akunId && akunTerakhir) {\r\n    expected = akunTerakhir;\r\n    sumber = \"akun hasil POST/PUT\";\r\n} else if (SEED[idDiUrl]) {\r\n    expected = SEED[idDiUrl];\r\n    sumber = \"data seed\";\r\n}\r\n\r\npm.test(\"Status code harus 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Body sesuai JSON Schema\", function () {\r\n    pm.response.to.have.jsonSchema(schema);\r\n});\r\n\r\npm.test(\"status bernilai success\", function () {\r\n    pm.expect(jsonData.status).to.eql(\"success\");\r\n});\r\n\r\npm.test(\"Content-Type berupa JSON\", function () {\r\n    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r\n});\r\n\r\npm.test(\"message sesuai\", function () {\r\n    pm.expect(jsonData.message).to.eql(\"Berhasil mengambil data akun warga\");\r\n});\r\n\r\npm.test(\"data berupa objek tunggal, bukan array\", function () {\r\n    pm.expect(data).to.be.an(\"object\");\r\n    pm.expect(data).to.not.be.an(\"array\");\r\n    pm.expect(jsonData).to.not.have.property(\"total\");\r\n});\r\n\r\npm.test(\"id pada data sama dengan id di URL\", function () {\r\n    pm.expect(data.id).to.eql(idDiUrl);\r\n});\r\n\r\npm.test(`Data sesuai (${sumber})`, function () {\r\n    pm.expect(expected, `Tidak ada data pembanding untuk id ${idDiUrl}`).to.not.be.null;\r\n    pm.expect(data).to.include(expected);\r\n});\r\n\r\npm.test(\"Kolom lengkap dan tipe data benar\", function () {\r\n    pm.expect(data).to.have.all.keys(\r\n        \"id\", \"warga_id\", \"nama_lengkap\", \"email\", \"peran\", \"created_at\"\r\n    );\r\n    pm.expect(data.id).to.be.a(\"number\");\r\n    pm.expect(data.warga_id).to.be.a(\"number\");\r\n    pm.expect(data.nama_lengkap).to.be.a(\"string\");\r\n});\r\n\r\npm.test(\"Email berformat valid\", function () {\r\n    pm.expect(data.email).to.match(/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/);\r\n});\r\n\r\npm.test(\"peran bernilai warga atau admin\", function () {\r\n    pm.expect(data.peran).to.be.oneOf([\"warga\", \"admin\"]);\r\n});\r\n\r\npm.test(\"created_at berformat tanggal ISO\", function () {\r\n    pm.expect(data.created_at).to.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$/);\r\n});\r\n\r\npm.test(\"password dan password_hash tidak bocor ke response\", function () {\r\n    pm.expect(data).to.not.have.property(\"password\");\r\n    pm.expect(data).to.not.have.property(\"password_hash\");\r\n});\r\n\r\npm.test(\"Response time di bawah 500 ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(500);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{ENDPOINT_API}}/akun-warga/{{akun_id}}",
+              "host": [
+                "{{ENDPOINT_API}}"
+              ],
+              "path": [
+                "akun-warga",
+                "{{akun_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Tambah Akun Warga",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const schema = JSON.parse(pm.collectionVariables.get(\"AWID_jsonSchema\"));\r\nconst jsonData = pm.response.json();\r\nconst data = jsonData.data || {};\r\n\r\n// Body yang benar-benar terkirim (sudah berisi nilai dari {{Account_Data}})\r\nlet sent = {};\r\ntry {\r\n    sent = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));\r\n} catch (e) {\r\n    sent = {};\r\n}\r\n\r\n// Simpan di luar pm.test, hanya kalau POST berhasil\r\nif (pm.response.code === 201 && data.id) {\r\n    pm.collectionVariables.set(\"akun_id\", data.id);\r\n    pm.collectionVariables.set(\"akun_terakhir\", JSON.stringify(data));\r\n}\r\n\r\npm.test(\"Status code harus 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"Body sesuai JSON Schema\", function () {\r\n    pm.response.to.have.jsonSchema(schema);\r\n});\r\n\r\npm.test(\"status dan message sesuai\", function () {\r\n    pm.expect(jsonData.status).to.eql(\"success\");\r\n    pm.expect(jsonData.message).to.eql(\"Akun warga berhasil ditambahkan\");\r\n});\r\n\r\npm.test(\"Data sesuai dengan yang dikirim\", function () {\r\n    pm.expect(data.warga_id).to.eql(sent.warga_id);\r\n    pm.expect(data.email).to.eql(String(sent.email).toLowerCase());\r\n    pm.expect(data.peran).to.eql(sent.peran || \"warga\");\r\n});\r\n\r\npm.test(\"password dan password_hash tidak bocor\", function () {\r\n    pm.expect(data).to.not.have.property(\"password\");\r\n    pm.expect(data).to.not.have.property(\"password_hash\");\r\n});\r\n\r\npm.test(\"akun_id dan akun_terakhir tersimpan di collection variable\", function () {\r\n    pm.expect(data.id).to.be.a(\"number\");\r\n    pm.expect(Number(pm.collectionVariables.get(\"akun_id\"))).to.eql(data.id);\r\n    pm.expect(JSON.parse(pm.collectionVariables.get(\"akun_terakhir\")).id).to.eql(data.id);\r\n});"
+                ]
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const base = pm.variables.replaceIn(\"{{ENDPOINT_API}}\");\r\n\r\npm.sendRequest(`${base}/akun-warga`, (err1, resAkun) => {\r\n    pm.sendRequest(`${base}/warga`, (err2, resWarga) => {\r\n        if (err1 || err2) {\r\n            return console.error(\"Gagal mengambil data warga/akun\", err1 || err2);\r\n        }\r\n\r\n        const dipakai = new Set(resAkun.json().data.map((a) => a.warga_id));\r\n        const bebas = resWarga.json().data.find((w) => !dipakai.has(w.id));\r\n        if (!bebas) {\r\n            return console.warn(\"Semua warga sudah punya akun, tambah warga baru lewat POST /warga\");\r\n        }\r\n\r\n        try {\r\n            const body = JSON.parse(pm.collectionVariables.get(\"Account_Data\"));\r\n            body.warga_id = bebas.id;\r\n            pm.collectionVariables.set(\"Account_Data\", JSON.stringify(body, null, 2));\r\n        } catch (e) {\r\n            console.error(\"Account_Data bukan JSON yang valid\", e);\r\n        }\r\n    });\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{{Account_Data}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{ENDPOINT_API}}/akun-warga",
+              "host": [
+                "{{ENDPOINT_API}}"
+              ],
+              "path": [
+                "akun-warga"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Hapus Akun Warga",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const jsonData = pm.response.json();\r\nconst data = jsonData.data || {};\r\nconst idDiUrl = Number(\r\n    pm.variables.replaceIn(pm.request.url.path[pm.request.url.path.length - 1])\r\n);\r\nconst akunId = Number(pm.collectionVariables.get(\"akun_id\"));\r\nconst hapusAkunHasilPost = idDiUrl === akunId;\r\n\r\nlet akunTerakhir = null;\r\ntry {\r\n    akunTerakhir = JSON.parse(pm.collectionVariables.get(\"akun_terakhir\"));\r\n} catch (e) {\r\n    akunTerakhir = null;\r\n}\r\n\r\npm.test(\"Status code harus 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Content-Type berupa JSON\", function () {\r\n    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r\n});\r\n\r\npm.test(\"status dan message sesuai\", function () {\r\n    pm.expect(jsonData.status).to.eql(\"success\");\r\n    pm.expect(jsonData.message).to.eql(\"Akun warga berhasil dihapus\");\r\n});\r\n\r\npm.test(\"data yang dikembalikan adalah akun yang dihapus\", function () {\r\n    pm.expect(data).to.be.an(\"object\");\r\n    pm.expect(data.id).to.eql(idDiUrl);\r\n    pm.expect(data).to.have.all.keys(\r\n        \"id\", \"warga_id\", \"nama_lengkap\", \"email\", \"peran\", \"created_at\"\r\n    );\r\n    if (hapusAkunHasilPost && akunTerakhir) {\r\n        pm.expect(data).to.eql(akunTerakhir);\r\n    }\r\n});\r\n\r\npm.test(\"password dan password_hash tidak bocor\", function () {\r\n    pm.expect(data).to.not.have.property(\"password\");\r\n    pm.expect(data).to.not.have.property(\"password_hash\");\r\n});\r\n\r\npm.test(\"Response time di bawah 500 ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(500);\r\n});\r\n\r\n// Verifikasi: GET ke ID yang sama harus 404 karena datanya sudah terhapus\r\npm.sendRequest(\r\n    pm.variables.replaceIn(\"{{ENDPOINT_API}}/akun-warga/\" + idDiUrl),\r\n    function (err, res) {\r\n        pm.test(\"Akun benar-benar terhapus (GET ulang menghasilkan 404)\", function () {\r\n            pm.expect(err).to.be.null;\r\n            pm.expect(res).to.have.property(\"code\", 404);\r\n            pm.expect(res.json().status).to.eql(\"error\");\r\n            pm.expect(res.json().message).to.eql(\r\n                `Akun warga dengan id ${idDiUrl} tidak ditemukan`\r\n            );\r\n        });\r\n    }\r\n);\r\n\r\n// Bersihkan variable hanya kalau yang terhapus memang akun hasil POST\r\nif (pm.response.code === 200 && hapusAkunHasilPost) {\r\n    pm.collectionVariables.unset(\"akun_id\");\r\n    pm.collectionVariables.unset(\"akun_terakhir\");\r\n}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{ENDPOINT_API}}/akun-warga/{{akun_id}}",
+              "host": [
+                "{{ENDPOINT_API}}"
+              ],
+              "path": [
+                "akun-warga",
+                "{{akun_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ubah Akun Warga",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const schema = JSON.parse(pm.collectionVariables.get(\"AWID_jsonSchema\"));\r\nconst jsonData = pm.response.json();\r\nconst data = jsonData.data || {};\r\nconst idDiUrl = Number(\r\n    pm.variables.replaceIn(pm.request.url.path[pm.request.url.path.length - 1])\r\n);\r\nconst akunId = Number(pm.collectionVariables.get(\"akun_id\"));\r\n\r\nlet sebelum = {};\r\ntry {\r\n    sebelum = JSON.parse(pm.collectionVariables.get(\"akun_terakhir\")) || {};\r\n} catch (e) {\r\n    sebelum = {};\r\n}\r\n\r\nlet dikirim = {};\r\ntry {\r\n    dikirim = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));\r\n} catch (e) {\r\n    dikirim = {};\r\n}\r\n\r\n// Data yang diharapkan = data sebelumnya + kolom yang diubah\r\nconst harapan = { ...sebelum };\r\nif (dikirim.email !== undefined) harapan.email = String(dikirim.email).toLowerCase();\r\nif (dikirim.peran !== undefined) harapan.peran = dikirim.peran;\r\n\r\n// Perbarui pembanding hanya kalau yang diubah memang akun hasil POST\r\nif (pm.response.code === 200 && data.id && data.id === akunId) {\r\n    pm.collectionVariables.set(\"akun_terakhir\", JSON.stringify(data));\r\n}\r\n\r\npm.test(\"Status code harus 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Body sesuai JSON Schema\", function () {\r\n    pm.response.to.have.jsonSchema(schema);\r\n});\r\n\r\npm.test(\"status dan message sesuai\", function () {\r\n    pm.expect(jsonData.status).to.eql(\"success\");\r\n    pm.expect(jsonData.message).to.eql(\"Akun warga berhasil diperbarui\");\r\n});\r\n\r\npm.test(\"id pada data sama dengan id di URL\", function () {\r\n    pm.expect(data.id).to.eql(idDiUrl);\r\n});\r\n\r\npm.test(\"Kolom yang dikirim berubah sesuai input\", function () {\r\n    if (dikirim.email !== undefined) pm.expect(data.email).to.eql(String(dikirim.email).toLowerCase());\r\n    if (dikirim.peran !== undefined) pm.expect(data.peran).to.eql(dikirim.peran);\r\n});\r\n\r\npm.test(\"Kolom lain tidak berubah (warga_id, nama_lengkap, created_at)\", function () {\r\n    pm.expect(sebelum, \"akun_terakhir kosong, jalankan POST dulu\").to.have.property(\"id\");\r\n    pm.expect(data.warga_id).to.eql(sebelum.warga_id);\r\n    pm.expect(data.nama_lengkap).to.eql(sebelum.nama_lengkap);\r\n    pm.expect(data.created_at).to.eql(sebelum.created_at);\r\n});\r\n\r\npm.test(\"Seluruh data sesuai harapan\", function () {\r\n    pm.expect(data).to.eql(harapan);\r\n});\r\n\r\npm.test(\"password dan password_hash tidak bocor\", function () {\r\n    pm.expect(data).to.not.have.property(\"password\");\r\n    pm.expect(data).to.not.have.property(\"password_hash\");\r\n});\r\n\r\npm.test(\"Response time di bawah 500 ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(500);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{{Account_Update}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{ENDPOINT_API}}/akun-warga/{{akun_id}}",
+              "host": [
+                "{{ENDPOINT_API}}"
+              ],
+              "path": [
+                "akun-warga",
+                "{{akun_id}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "ENDPOINT_API",
+      "value": "{{BASE_URL}}/api"
+    },
+    {
+      "key": "AWID_jsonSchema",
+      "value": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"status\": { \"type\": \"string\" },\n    \"message\": { \"type\": \"string\" },\n    \"data\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"id\": { \"type\": \"number\" },\n        \"warga_id\": { \"type\": \"number\" },\n        \"nama_lengkap\": { \"type\": \"string\" },\n        \"email\": { \"type\": \"string\" },\n        \"peran\": { \"type\": \"string\" },\n        \"created_at\": { \"type\": \"string\" }\n      },\n      \"required\": [\"id\", \"warga_id\", \"nama_lengkap\", \"email\", \"peran\", \"created_at\"],\n      \"additionalProperties\": false\n    }\n  },\n  \"required\": [\"status\", \"message\", \"data\"]\n}"
+    },
+    {
+      "key": "AWALL_jsonSchema",
+      "value": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"status\": { \"type\": \"string\" },\n    \"message\": { \"type\": \"string\" },\n    \"total\": { \"type\": \"number\" },\n    \"data\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"id\": { \"type\": \"number\" },\n          \"warga_id\": { \"type\": \"number\" },\n          \"nama_lengkap\": { \"type\": \"string\" },\n          \"email\": { \"type\": \"string\" },\n          \"peran\": { \"type\": \"string\" },\n          \"created_at\": { \"type\": \"string\" }\n        },\n        \"required\": [\"id\", \"warga_id\", \"nama_lengkap\", \"email\", \"peran\", \"created_at\"],\n        \"additionalProperties\": false\n      }\n    }\n  },\n  \"required\": [\"status\", \"message\", \"total\", \"data\"]\n}"
+    },
+    {
+      "key": "Account_Data",
+      "value": "{\n  \"warga_id\": 3,\n  \"email\": \"naila@sukamaju.id\",\n  \"password\": \"rahasia123\",\n  \"peran\": \"warga\"\n}"
+    },
+    {
+      "key": "Account_Update",
+      "value": "{\n  \"email\": \"Naila.Putri@sukamaju.id\",\n  \"peran\": \"admin\",\n  \"password\": \"passwordBaru456\"\n}"
+    }
+  ]
+}
