@@ -148,7 +148,7 @@ Prasyarat: Node.js dan PostgreSQL sudah terpasang.
 **1. Clone repository dan pasang dependensi**
 
 ```bash
-git clone <url-repository-kamu>
+git clone https://github.com/Ghifariezra/kegiatan-desa-rest-api.git
 cd si-kegiatan-desa
 npm install
 ```
