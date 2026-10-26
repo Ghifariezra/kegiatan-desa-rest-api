@@ -6,7 +6,10 @@
   "type": "module",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "test:api": "newman run \"./postman/API - Desa Sukamaju.postman_collection.json\" --delay-request 200",
+    "test:api:report": "newman run \"./postman/API - Desa Sukamaju.postman_collection.json\" --delay-request 200 -r cli,htmlextra --reporter-htmlextra-export ./postman/report.html",
+    "db:reset": "node scripts/db-reset.mjs"
   },
   "keywords": [
     "express",
@@ -31,6 +34,8 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "newman": "^6.2.3",
+    "newman-reporter-htmlextra": "^1.23.1",
     "nodemon": "^3.1.14"
   }
 }
