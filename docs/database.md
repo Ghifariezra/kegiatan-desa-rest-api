@@ -1,4 +1,4 @@
-# Database and folder structure
+<!-- # Database and folder structure -->
 
 ## Database design
 

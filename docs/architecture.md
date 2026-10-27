@@ -1,4 +1,4 @@
-# Architecture and installation
+<!-- # Architecture and installation -->
 
 ## Code architecture
 
