@@ -1,7 +1,5 @@
 # Architecture and installation
 
-[← Back to README](../README.md)
-
 ## Code architecture
 
 ```mermaid

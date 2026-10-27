@@ -1,7 +1,5 @@
 # Testing and troubleshooting
 
-[← Back to README](../README.md)
-
 ## Testing
 
 There are two sets of automated tests. Both only cover the `akun-warga` resource, plus 2 tests for `GET /` and unknown routes.

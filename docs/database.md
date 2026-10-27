@@ -1,7 +1,5 @@
 # Database and folder structure
 
-[← Back to README](../README.md)
-
 ## Database design
 
 | Table | Contents |

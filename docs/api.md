@@ -1,7 +1,5 @@
 # API
 
-[← Back to README](../README.md)
-
 ## API endpoints
 
 All resources have the same 5 routes.
