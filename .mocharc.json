@@ -1,0 +1,11 @@
+{
+    "require": [
+        "tests/env.setup.js",
+        "tests/hooks.js"
+    ],
+    "spec": "tests/specs/**/*.spec.js",
+    "timeout": 15000,
+    "parallel": true,
+    "jobs": 4,
+    "exit": true
+}

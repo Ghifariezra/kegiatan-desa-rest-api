@@ -1,5 +1,5 @@
 {
-  "name": "si-kegiatan-desa",
+  "name": "village-activity-api-testing",
   "version": "1.0.0",
   "description": "REST API Sistem Informasi Kegiatan Desa Sukamaju (Express.js + PostgreSQL)",
   "main": "src/index.js",
@@ -7,6 +7,12 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
+    "test": "mocha",
+    "test:serial": "mocha --no-parallel",
+    "test:watch": "nodemon --watch src --watch tests --ext js,json --exec \"mocha --no-parallel\"",
+    "test:report": "node scripts/test-report.mjs",
+    "report:open": "allure open ./allure-report",
+    "test:report:open": "npm run test:report && npm run report:open",
     "test:api": "newman run \"./postman/API - Desa Sukamaju.postman_collection.json\" --delay-request 200",
     "test:api:report": "newman run \"./postman/API - Desa Sukamaju.postman_collection.json\" --delay-request 200 -r cli,htmlextra --reporter-htmlextra-export ./postman/report.html",
     "db:reset": "node scripts/db-reset.mjs"
@@ -16,10 +22,10 @@
     "postgresql",
     "rest-api"
   ],
-  "author": "Naila Putri Fahel",
+  "author": "Ghifari Ezra Ramadhan",
   "license": "ISC",
   "engines": {
-    "node": ">=20"
+    "node": ">=22.12.0"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
@@ -34,8 +40,14 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "allure": "^3.22.1",
+    "allure-js-commons": "^3.14.0",
+    "allure-mocha": "^3.14.0",
+    "chai": "^6.3.0",
+    "mocha": "^12.0.3",
     "newman": "^6.2.3",
     "newman-reporter-htmlextra": "^1.23.1",
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.1.14",
+    "supertest": "^7.3.1"
   }
 }

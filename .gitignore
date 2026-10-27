@@ -2,6 +2,9 @@ node_modules
 .env
 scripts/*
 !scripts/db-reset.mjs
+!scripts/test-report.mjs
 codebase-dump.txt
 postman/report.html
 commit.txt
+allure-results/
+allure-report/

@@ -1,0 +1,1599 @@
+[
+    {
+        "id": "POST-01",
+        "group": "POST valid",
+        "teknik": "EP + BVA",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 1,
+            "email": "budi.santoso@desasukamaju.id",
+            "password": "Rahasia123",
+            "peran": "warga"
+        },
+        "expected_status": 201,
+        "expected_message": "Akun warga berhasil ditambahkan",
+        "simpan_id_sebagai": "AKUN_1",
+        "catatan": "EP valid peran warga; BVA warga_id minimum=1; response tanpa password/password_hash"
+    },
+    {
+        "id": "POST-02",
+        "group": "POST valid",
+        "teknik": "EP",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 2,
+            "email": "siti.aminah@desasukamaju.id",
+            "password": "Rahasia123",
+            "peran": "admin"
+        },
+        "expected_status": 201,
+        "expected_message": "Akun warga berhasil ditambahkan",
+        "simpan_id_sebagai": "AKUN_2",
+        "catatan": "EP peran admin"
+    },
+    {
+        "id": "POST-03",
+        "group": "POST valid",
+        "teknik": "EP",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 3,
+            "email": "andi.pratama@desasukamaju.id",
+            "password": "Rahasia123"
+        },
+        "expected_status": 201,
+        "expected_message": "Akun warga berhasil ditambahkan",
+        "simpan_id_sebagai": "AKUN_3",
+        "catatan": "peran tidak dikirim, default DB = 'warga'"
+    },
+    {
+        "id": "POST-04",
+        "group": "POST valid",
+        "teknik": "EP",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 4,
+            "email": "RINA.Wati@DesaSukamaju.ID",
+            "password": "Rahasia123"
+        },
+        "expected_status": 201,
+        "expected_message": "Akun warga berhasil ditambahkan",
+        "simpan_id_sebagai": "AKUN_4",
+        "catatan": "email tersimpan lowercase: rina.wati@desasukamaju.id"
+    },
+    {
+        "id": "POST-05",
+        "group": "POST valid",
+        "teknik": "EP",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 5,
+            "email": "dewi.lestari@desasukamaju.id",
+            "password": "Rahasia123",
+            "peran": "warga",
+            "password_hash": "hack",
+            "id": 999
+        },
+        "expected_status": 201,
+        "expected_message": "Akun warga berhasil ditambahkan",
+        "simpan_id_sebagai": "AKUN_5",
+        "catatan": "field ekstra diabaikan; id bukan 999"
+    },
+    {
+        "id": "POST-06",
+        "group": "POST valid",
+        "teknik": "BVA",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 6,
+            "email": "a@b.co",
+            "password": "Rahasia123"
+        },
+        "expected_status": 201,
+        "expected_message": "Akun warga berhasil ditambahkan",
+        "simpan_id_sebagai": "AKUN_6",
+        "catatan": "email format terpendek"
+    },
+    {
+        "id": "POST-07",
+        "group": "POST valid",
+        "teknik": "BVA",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 7,
+            "email": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@desasukamaju.id",
+            "password": "Rahasia123"
+        },
+        "expected_status": 201,
+        "expected_message": "Akun warga berhasil ditambahkan",
+        "catatan": "email 99 karakter"
+    },
+    {
+        "id": "POST-08",
+        "group": "POST valid",
+        "teknik": "BVA",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 8,
+            "email": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@desasukamaju.id",
+            "password": "Rahasia123"
+        },
+        "expected_status": 201,
+        "expected_message": "Akun warga berhasil ditambahkan",
+        "catatan": "email 100 karakter"
+    },
+    {
+        "id": "POST-09",
+        "group": "POST valid",
+        "teknik": "BVA",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 9,
+            "email": "pw8@desasukamaju.id",
+            "password": "Pass1234"
+        },
+        "expected_status": 201,
+        "expected_message": "Akun warga berhasil ditambahkan",
+        "catatan": "password 8 karakter"
+    },
+    {
+        "id": "POST-10",
+        "group": "POST valid",
+        "teknik": "BVA",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 10,
+            "email": "pw9@desasukamaju.id",
+            "password": "Pass12345"
+        },
+        "expected_status": 201,
+        "expected_message": "Akun warga berhasil ditambahkan",
+        "catatan": "password 9 karakter"
+    },
+    {
+        "id": "POST-11",
+        "group": "POST valid",
+        "teknik": "BVA",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 11,
+            "email": "pw71@desasukamaju.id",
+            "password": "Pass1234567890123456789012345678901234567890123456789012345678901234567"
+        },
+        "expected_status": 201,
+        "expected_message": "Akun warga berhasil ditambahkan",
+        "catatan": "password 71 karakter"
+    },
+    {
+        "id": "POST-12",
+        "group": "POST valid",
+        "teknik": "BVA",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 12,
+            "email": "pw72@desasukamaju.id",
+            "password": "Pass12345678901234567890123456789012345678901234567890123456789012345678"
+        },
+        "expected_status": 201,
+        "expected_message": "Akun warga berhasil ditambahkan",
+        "catatan": "password 72 karakter"
+    },
+    {
+        "id": "POST-13",
+        "group": "POST valid",
+        "teknik": "EP",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 13,
+            "email": "spasi@desasukamaju.id",
+            "password": "        "
+        },
+        "expected_status": 201,
+        "expected_message": "Akun warga berhasil ditambahkan",
+        "catatan": "TEMUAN: password 8 spasi lolos karena tidak di-trim"
+    },
+    {
+        "id": "NEG-01",
+        "group": "POST negatif",
+        "teknik": "EP",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "email": "negatif@desasukamaju.id",
+            "password": "Rahasia123"
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "warga_id",
+                "message": "warga_id wajib diisi"
+            }
+        ]
+    },
+    {
+        "id": "NEG-02",
+        "group": "POST negatif",
+        "teknik": "BVA",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 0,
+            "email": "negatif@desasukamaju.id",
+            "password": "Rahasia123"
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "warga_id",
+                "message": "warga_id harus lebih dari 0"
+            }
+        ]
+    },
+    {
+        "id": "NEG-03",
+        "group": "POST negatif",
+        "teknik": "BVA",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": -1,
+            "email": "negatif@desasukamaju.id",
+            "password": "Rahasia123"
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "warga_id",
+                "message": "warga_id harus lebih dari 0"
+            }
+        ]
+    },
+    {
+        "id": "NEG-04",
+        "group": "POST negatif",
+        "teknik": "EP",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 1.5,
+            "email": "negatif@desasukamaju.id",
+            "password": "Rahasia123"
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "warga_id",
+                "message": "warga_id harus berupa bilangan bulat"
+            }
+        ]
+    },
+    {
+        "id": "NEG-05",
+        "group": "POST negatif",
+        "teknik": "EP",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": "14",
+            "email": "negatif@desasukamaju.id",
+            "password": "Rahasia123"
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "warga_id",
+                "message": "warga_id harus berupa angka"
+            }
+        ]
+    },
+    {
+        "id": "NEG-06",
+        "group": "POST negatif",
+        "teknik": "EP",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": null,
+            "email": "negatif@desasukamaju.id",
+            "password": "Rahasia123"
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "warga_id",
+                "message": "warga_id harus berupa angka"
+            }
+        ]
+    },
+    {
+        "id": "NEG-07",
+        "group": "POST negatif",
+        "teknik": "EP",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 14,
+            "password": "Rahasia123"
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "email",
+                "message": "email tidak valid"
+            }
+        ]
+    },
+    {
+        "id": "NEG-08",
+        "group": "POST negatif",
+        "teknik": "EP",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 14,
+            "email": "",
+            "password": "Rahasia123"
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "email",
+                "message": "email tidak valid"
+            }
+        ]
+    },
+    {
+        "id": "NEG-09",
+        "group": "POST negatif",
+        "teknik": "EP",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 14,
+            "email": "budi.santoso",
+            "password": "Rahasia123"
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "email",
+                "message": "email tidak valid"
+            }
+        ]
+    },
+    {
+        "id": "NEG-10",
+        "group": "POST negatif",
+        "teknik": "EP",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 14,
+            "email": "budi@desasukamaju",
+            "password": "Rahasia123"
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "email",
+                "message": "email tidak valid"
+            }
+        ]
+    },
+    {
+        "id": "NEG-11",
+        "group": "POST negatif",
+        "teknik": "BVA",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 14,
+            "email": "budi@desasukamaju.c",
+            "password": "Rahasia123"
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "email",
+                "message": "email tidak valid"
+            }
+        ],
+        "catatan": "TLD 1 huruf"
+    },
+    {
+        "id": "NEG-12",
+        "group": "POST negatif",
+        "teknik": "EP",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 14,
+            "email": "budi..x@desasukamaju.id",
+            "password": "Rahasia123"
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "email",
+                "message": "email tidak valid"
+            }
+        ]
+    },
+    {
+        "id": "NEG-13",
+        "group": "POST negatif",
+        "teknik": "EP",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 14,
+            "email": " budi@desasukamaju.id",
+            "password": "Rahasia123"
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "email",
+                "message": "email tidak valid"
+            }
+        ]
+    },
+    {
+        "id": "NEG-14",
+        "group": "POST negatif",
+        "teknik": "EP",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 14,
+            "email": 12345,
+            "password": "Rahasia123"
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "email",
+                "message": "email tidak valid"
+            }
+        ]
+    },
+    {
+        "id": "NEG-15",
+        "group": "POST negatif",
+        "teknik": "BVA",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 14,
+            "email": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@desasukamaju.id",
+            "password": "Rahasia123"
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "email",
+                "message": "email maksimal 100 karakter"
+            }
+        ]
+    },
+    {
+        "id": "NEG-16",
+        "group": "POST negatif",
+        "teknik": "EP",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 14,
+            "email": "negatif@desasukamaju.id"
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "password",
+                "message": "password wajib diisi"
+            }
+        ]
+    },
+    {
+        "id": "NEG-17",
+        "group": "POST negatif",
+        "teknik": "EP",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 14,
+            "email": "negatif@desasukamaju.id",
+            "password": ""
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "password",
+                "message": "password minimal 8 karakter"
+            }
+        ]
+    },
+    {
+        "id": "NEG-18",
+        "group": "POST negatif",
+        "teknik": "BVA",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 14,
+            "email": "negatif@desasukamaju.id",
+            "password": "Pass123"
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "password",
+                "message": "password minimal 8 karakter"
+            }
+        ]
+    },
+    {
+        "id": "NEG-19",
+        "group": "POST negatif",
+        "teknik": "BVA",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 14,
+            "email": "negatif@desasukamaju.id",
+            "password": "Pass123456789012345678901234567890123456789012345678901234567890123456789"
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "password",
+                "message": "password maksimal 72 karakter"
+            }
+        ]
+    },
+    {
+        "id": "NEG-20",
+        "group": "POST negatif",
+        "teknik": "EP",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 14,
+            "email": "negatif@desasukamaju.id",
+            "password": 12345678
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "password",
+                "message": "password harus berupa teks"
+            }
+        ]
+    },
+    {
+        "id": "NEG-21",
+        "group": "POST negatif",
+        "teknik": "EP",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 14,
+            "email": "negatif@desasukamaju.id",
+            "password": null
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "password",
+                "message": "password harus berupa teks"
+            }
+        ]
+    },
+    {
+        "id": "NEG-22",
+        "group": "POST negatif",
+        "teknik": "EP",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 14,
+            "email": "negatif@desasukamaju.id",
+            "password": "Rahasia123",
+            "peran": "superadmin"
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "peran",
+                "message": "peran harus salah satu dari: warga, admin"
+            }
+        ]
+    },
+    {
+        "id": "NEG-23",
+        "group": "POST negatif",
+        "teknik": "EP",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 14,
+            "email": "negatif@desasukamaju.id",
+            "password": "Rahasia123",
+            "peran": "Admin"
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "peran",
+                "message": "peran harus salah satu dari: warga, admin"
+            }
+        ]
+    },
+    {
+        "id": "NEG-24",
+        "group": "POST negatif",
+        "teknik": "EP",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 14,
+            "email": "negatif@desasukamaju.id",
+            "password": "Rahasia123",
+            "peran": ""
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "peran",
+                "message": "peran harus salah satu dari: warga, admin"
+            }
+        ]
+    },
+    {
+        "id": "NEG-25",
+        "group": "POST negatif",
+        "teknik": "EP",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 14,
+            "email": "negatif@desasukamaju.id",
+            "password": "Rahasia123",
+            "peran": null
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "peran",
+                "message": "peran harus salah satu dari: warga, admin"
+            }
+        ]
+    },
+    {
+        "id": "NEG-26",
+        "group": "POST negatif",
+        "teknik": "EP",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {},
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "warga_id",
+                "message": "warga_id wajib diisi"
+            },
+            {
+                "field": "email",
+                "message": "email tidak valid"
+            },
+            {
+                "field": "password",
+                "message": "password wajib diisi"
+            }
+        ]
+    },
+    {
+        "id": "NEG-27",
+        "group": "POST negatif",
+        "teknik": "EP",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 0,
+            "email": "x",
+            "password": "1",
+            "peran": "x"
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "warga_id",
+                "message": "warga_id harus lebih dari 0"
+            },
+            {
+                "field": "email",
+                "message": "email tidak valid"
+            },
+            {
+                "field": "password",
+                "message": "password minimal 8 karakter"
+            },
+            {
+                "field": "peran",
+                "message": "peran harus salah satu dari: warga, admin"
+            }
+        ]
+    },
+    {
+        "id": "NEG-28",
+        "group": "POST negatif",
+        "teknik": "EP",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": null,
+        "body_raw": "{\"warga_id\":14,",
+        "expected_status": 400,
+        "expected_message": "Format JSON pada body tidak valid",
+        "catatan": "tanpa array errors; Content-Type: application/json"
+    },
+    {
+        "id": "NEG-29",
+        "group": "POST negatif",
+        "teknik": "BVA",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 2147483647,
+            "email": "negatif@desasukamaju.id",
+            "password": "Rahasia123"
+        },
+        "expected_status": 400,
+        "expected_message": "warga_id tidak ditemukan",
+        "catatan": "kolom id SERIAL = INTEGER (terverifikasi di schema.sql), batas atas 2147483647"
+    },
+    {
+        "id": "NEG-30",
+        "group": "POST negatif",
+        "teknik": "BVA",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 2147483648,
+            "email": "negatif@desasukamaju.id",
+            "password": "Rahasia123"
+        },
+        "expected_status": 400,
+        "expected_message": "Format data tidak valid, periksa tanggal, jam, atau angka",
+        "catatan": "kolom id SERIAL = INTEGER (terverifikasi di schema.sql), batas atas 2147483647"
+    },
+    {
+        "id": "DT-POST-01",
+        "group": "Decision Table POST",
+        "teknik": "Decision Table + R1",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 15,
+            "email": "hendra.wijaya@desasukamaju.id",
+            "password": "Rahasia123"
+        },
+        "expected_status": 201,
+        "expected_message": "Akun warga berhasil ditambahkan"
+    },
+    {
+        "id": "DT-POST-02",
+        "group": "Decision Table POST",
+        "teknik": "Decision Table + R2",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 15,
+            "email": "bukan-email",
+            "password": "Rahasia123"
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "email",
+                "message": "email tidak valid"
+            }
+        ]
+    },
+    {
+        "id": "DT-POST-03",
+        "group": "Decision Table POST",
+        "teknik": "Decision Table + R3",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 9999,
+            "email": "hantu@desasukamaju.id",
+            "password": "Rahasia123"
+        },
+        "expected_status": 400,
+        "expected_message": "warga_id tidak ditemukan"
+    },
+    {
+        "id": "DT-POST-04",
+        "group": "Decision Table POST",
+        "teknik": "Decision Table + R4",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 1,
+            "email": "email.baru@desasukamaju.id",
+            "password": "Rahasia123"
+        },
+        "expected_status": 409,
+        "expected_message": "warga ini sudah punya akun"
+    },
+    {
+        "id": "DT-POST-05",
+        "group": "Decision Table POST",
+        "teknik": "Decision Table + R5",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 16,
+            "email": "budi.santoso@desasukamaju.id",
+            "password": "Rahasia123"
+        },
+        "expected_status": 409,
+        "expected_message": "email sudah dipakai"
+    },
+    {
+        "id": "DT-POST-06",
+        "group": "Decision Table POST",
+        "teknik": "Decision Table + R6",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 1,
+            "email": "budi.santoso@desasukamaju.id",
+            "password": "Rahasia123"
+        },
+        "expected_status": 409,
+        "expected_message": "warga ini sudah punya akun",
+        "catatan": "warga_id dicek lebih dulu daripada email (urutan index unique pada akun_warga), terverifikasi di PostgreSQL 16"
+    },
+    {
+        "id": "DT-POST-07",
+        "group": "Decision Table POST",
+        "teknik": "Decision Table + R7",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 9999,
+            "email": "budi.santoso@desasukamaju.id",
+            "password": "Rahasia123"
+        },
+        "expected_status": 409,
+        "expected_message": "email sudah dipakai",
+        "catatan": "unique email dicek sebelum FK warga_id, terverifikasi di PostgreSQL 16"
+    },
+    {
+        "id": "DT-POST-08",
+        "group": "Decision Table POST",
+        "teknik": "Decision Table + R5 varian",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 16,
+            "email": "BUDI.SANTOSO@DESASUKAMAJU.ID",
+            "password": "Rahasia123"
+        },
+        "expected_status": 409,
+        "expected_message": "email sudah dipakai",
+        "catatan": "email di-lowercase sebelum disimpan"
+    },
+    {
+        "id": "PUT-01",
+        "group": "PUT kombinasi field",
+        "teknik": "Decision Table + U1",
+        "method": "PUT",
+        "url": "/api/akun-warga/{{AKUN_3}}",
+        "body": {},
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "body",
+                "message": "Kirim minimal satu kolom yang ingin diubah"
+            }
+        ]
+    },
+    {
+        "id": "PUT-02",
+        "group": "PUT kombinasi field",
+        "teknik": "Decision Table + U2",
+        "method": "PUT",
+        "url": "/api/akun-warga/{{AKUN_3}}",
+        "body": {
+            "email": "andi.baru@desasukamaju.id"
+        },
+        "expected_status": 200,
+        "expected_message": "Akun warga berhasil diperbarui",
+        "catatan": "hanya email berubah"
+    },
+    {
+        "id": "PUT-03",
+        "group": "PUT kombinasi field",
+        "teknik": "Decision Table + U3",
+        "method": "PUT",
+        "url": "/api/akun-warga/{{AKUN_3}}",
+        "body": {
+            "password": "PasswordBaru456"
+        },
+        "expected_status": 200,
+        "expected_message": "Akun warga berhasil diperbarui",
+        "catatan": "tanpa password_hash di response"
+    },
+    {
+        "id": "PUT-04",
+        "group": "PUT kombinasi field",
+        "teknik": "Decision Table + U4",
+        "method": "PUT",
+        "url": "/api/akun-warga/{{AKUN_3}}",
+        "body": {
+            "peran": "admin"
+        },
+        "expected_status": 200,
+        "expected_message": "Akun warga berhasil diperbarui"
+    },
+    {
+        "id": "PUT-05",
+        "group": "PUT kombinasi field",
+        "teknik": "Decision Table + U5",
+        "method": "PUT",
+        "url": "/api/akun-warga/{{AKUN_3}}",
+        "body": {
+            "email": "andi.v2@desasukamaju.id",
+            "password": "PasswordBaru789"
+        },
+        "expected_status": 200,
+        "expected_message": "Akun warga berhasil diperbarui"
+    },
+    {
+        "id": "PUT-06",
+        "group": "PUT kombinasi field",
+        "teknik": "Decision Table + U6",
+        "method": "PUT",
+        "url": "/api/akun-warga/{{AKUN_3}}",
+        "body": {
+            "email": "andi.v3@desasukamaju.id",
+            "peran": "warga"
+        },
+        "expected_status": 200,
+        "expected_message": "Akun warga berhasil diperbarui"
+    },
+    {
+        "id": "PUT-07",
+        "group": "PUT kombinasi field",
+        "teknik": "Decision Table + U7",
+        "method": "PUT",
+        "url": "/api/akun-warga/{{AKUN_3}}",
+        "body": {
+            "password": "PasswordBaru000",
+            "peran": "admin"
+        },
+        "expected_status": 200,
+        "expected_message": "Akun warga berhasil diperbarui"
+    },
+    {
+        "id": "PUT-08",
+        "group": "PUT kombinasi field",
+        "teknik": "Decision Table + U8",
+        "method": "PUT",
+        "url": "/api/akun-warga/{{AKUN_3}}",
+        "body": {
+            "email": "andi.final@desasukamaju.id",
+            "password": "PasswordFinal1",
+            "peran": "warga"
+        },
+        "expected_status": 200,
+        "expected_message": "Akun warga berhasil diperbarui"
+    },
+    {
+        "id": "PUT-09",
+        "group": "PUT EP/BVA",
+        "teknik": "BVA",
+        "method": "PUT",
+        "url": "/api/akun-warga/{{AKUN_3}}",
+        "body": {
+            "email": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb@desasukamaju.id"
+        },
+        "expected_status": 200,
+        "expected_message": "Akun warga berhasil diperbarui",
+        "catatan": "email 100 karakter"
+    },
+    {
+        "id": "PUT-10",
+        "group": "PUT EP/BVA",
+        "teknik": "BVA",
+        "method": "PUT",
+        "url": "/api/akun-warga/{{AKUN_3}}",
+        "body": {
+            "email": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb@desasukamaju.id"
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "email",
+                "message": "email maksimal 100 karakter"
+            }
+        ]
+    },
+    {
+        "id": "PUT-11",
+        "group": "PUT EP/BVA",
+        "teknik": "EP",
+        "method": "PUT",
+        "url": "/api/akun-warga/{{AKUN_3}}",
+        "body": {
+            "email": "bukan-email"
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "email",
+                "message": "email tidak valid"
+            }
+        ]
+    },
+    {
+        "id": "PUT-12",
+        "group": "PUT EP/BVA",
+        "teknik": "EP",
+        "method": "PUT",
+        "url": "/api/akun-warga/{{AKUN_3}}",
+        "body": {
+            "email": null
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "email",
+                "message": "email tidak valid"
+            }
+        ]
+    },
+    {
+        "id": "PUT-13",
+        "group": "PUT EP/BVA",
+        "teknik": "BVA",
+        "method": "PUT",
+        "url": "/api/akun-warga/{{AKUN_3}}",
+        "body": {
+            "password": "Pass1234"
+        },
+        "expected_status": 200,
+        "expected_message": "Akun warga berhasil diperbarui"
+    },
+    {
+        "id": "PUT-14",
+        "group": "PUT EP/BVA",
+        "teknik": "BVA",
+        "method": "PUT",
+        "url": "/api/akun-warga/{{AKUN_3}}",
+        "body": {
+            "password": "Pass123"
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "password",
+                "message": "password minimal 8 karakter"
+            }
+        ]
+    },
+    {
+        "id": "PUT-15",
+        "group": "PUT EP/BVA",
+        "teknik": "BVA",
+        "method": "PUT",
+        "url": "/api/akun-warga/{{AKUN_3}}",
+        "body": {
+            "password": "Pass12345678901234567890123456789012345678901234567890123456789012345678"
+        },
+        "expected_status": 200,
+        "expected_message": "Akun warga berhasil diperbarui"
+    },
+    {
+        "id": "PUT-16",
+        "group": "PUT EP/BVA",
+        "teknik": "BVA",
+        "method": "PUT",
+        "url": "/api/akun-warga/{{AKUN_3}}",
+        "body": {
+            "password": "Pass123456789012345678901234567890123456789012345678901234567890123456789"
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "password",
+                "message": "password maksimal 72 karakter"
+            }
+        ]
+    },
+    {
+        "id": "PUT-17",
+        "group": "PUT EP/BVA",
+        "teknik": "EP",
+        "method": "PUT",
+        "url": "/api/akun-warga/{{AKUN_3}}",
+        "body": {
+            "peran": "superadmin"
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "peran",
+                "message": "peran harus salah satu dari: warga, admin"
+            }
+        ]
+    },
+    {
+        "id": "PUT-18",
+        "group": "PUT EP/BVA",
+        "teknik": "EP",
+        "method": "PUT",
+        "url": "/api/akun-warga/{{AKUN_3}}",
+        "body": {
+            "warga_id": 5
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "body",
+                "message": "Kirim minimal satu kolom yang ingin diubah"
+            }
+        ],
+        "catatan": "warga_id di-strip schema"
+    },
+    {
+        "id": "PUT-19",
+        "group": "PUT EP/BVA",
+        "teknik": "EP",
+        "method": "PUT",
+        "url": "/api/akun-warga/{{AKUN_3}}",
+        "body": {
+            "warga_id": 5,
+            "email": "ganti.warga@desasukamaju.id"
+        },
+        "expected_status": 200,
+        "expected_message": "Akun warga berhasil diperbarui",
+        "catatan": "warga_id diabaikan, tidak berubah"
+    },
+    {
+        "id": "PUT-20",
+        "group": "PUT EP/BVA",
+        "teknik": "EP",
+        "method": "PUT",
+        "url": "/api/akun-warga/{{AKUN_3}}",
+        "body": null,
+        "body_raw": "{\"email\":",
+        "expected_status": 400,
+        "expected_message": "Format JSON pada body tidak valid",
+        "catatan": "Content-Type: application/json"
+    },
+    {
+        "id": "DT-PUT-01",
+        "group": "Decision Table PUT",
+        "teknik": "Decision Table + D1",
+        "method": "PUT",
+        "url": "/api/akun-warga/abc",
+        "body": {
+            "peran": "admin"
+        },
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "id",
+                "message": "ID harus berupa angka bulat positif"
+            }
+        ]
+    },
+    {
+        "id": "DT-PUT-02",
+        "group": "Decision Table PUT",
+        "teknik": "Decision Table + D2",
+        "method": "PUT",
+        "url": "/api/akun-warga/{{AKUN_3}}",
+        "body": {},
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "body",
+                "message": "Kirim minimal satu kolom yang ingin diubah"
+            }
+        ]
+    },
+    {
+        "id": "DT-PUT-03",
+        "group": "Decision Table PUT",
+        "teknik": "Decision Table + D3",
+        "method": "PUT",
+        "url": "/api/akun-warga/abc",
+        "body": {},
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "id",
+                "message": "ID harus berupa angka bulat positif"
+            },
+            {
+                "field": "body",
+                "message": "Kirim minimal satu kolom yang ingin diubah"
+            }
+        ]
+    },
+    {
+        "id": "DT-PUT-04",
+        "group": "Decision Table PUT",
+        "teknik": "Decision Table + D4",
+        "method": "PUT",
+        "url": "/api/akun-warga/9999",
+        "body": {
+            "peran": "admin"
+        },
+        "expected_status": 404,
+        "expected_message": "Akun warga dengan id 9999 tidak ditemukan"
+    },
+    {
+        "id": "DT-PUT-05",
+        "group": "Decision Table PUT",
+        "teknik": "Decision Table + D5",
+        "method": "PUT",
+        "url": "/api/akun-warga/{{AKUN_3}}",
+        "body": {
+            "email": "andi.unik@desasukamaju.id"
+        },
+        "expected_status": 200,
+        "expected_message": "Akun warga berhasil diperbarui"
+    },
+    {
+        "id": "DT-PUT-06",
+        "group": "Decision Table PUT",
+        "teknik": "Decision Table + D6",
+        "method": "PUT",
+        "url": "/api/akun-warga/{{AKUN_3}}",
+        "body": {
+            "email": "siti.aminah@desasukamaju.id"
+        },
+        "expected_status": 409,
+        "expected_message": "email sudah dipakai"
+    },
+    {
+        "id": "DT-PUT-07",
+        "group": "Decision Table PUT",
+        "teknik": "Decision Table + D7",
+        "method": "PUT",
+        "url": "/api/akun-warga/{{AKUN_5}}",
+        "body": {
+            "email": "dewi.lestari@desasukamaju.id"
+        },
+        "expected_status": 200,
+        "expected_message": "Akun warga berhasil diperbarui",
+        "catatan": "email milik sendiri tidak bentrok"
+    },
+    {
+        "id": "DT-PUT-08",
+        "group": "Decision Table PUT",
+        "teknik": "Decision Table + D8",
+        "method": "PUT",
+        "url": "/api/akun-warga/9999",
+        "body": {
+            "email": "siti.aminah@desasukamaju.id"
+        },
+        "expected_status": 404,
+        "expected_message": "Akun warga dengan id 9999 tidak ditemukan",
+        "catatan": "404, bukan 409"
+    },
+    {
+        "id": "ID-01",
+        "group": "Parameter :id",
+        "teknik": "EP + BVA",
+        "method": "GET",
+        "url": "/api/akun-warga/{{AKUN_1}}",
+        "body": null,
+        "expected_status": 200,
+        "expected_message": "Berhasil mengambil data akun warga",
+        "catatan": "min=1 valid"
+    },
+    {
+        "id": "ID-02",
+        "group": "Parameter :id",
+        "teknik": "EP",
+        "method": "GET",
+        "url": "/api/akun-warga/9999",
+        "body": null,
+        "expected_status": 404,
+        "expected_message": "Akun warga dengan id 9999 tidak ditemukan",
+        "catatan": "berlaku juga untuk PUT (body {\"peran\":\"warga\"}) dan DELETE"
+    },
+    {
+        "id": "ID-03",
+        "group": "Parameter :id",
+        "teknik": "BVA",
+        "method": "GET",
+        "url": "/api/akun-warga/0",
+        "body": null,
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "id",
+                "message": "ID harus berupa angka bulat positif"
+            }
+        ],
+        "catatan": "berlaku juga untuk PUT (body {\"peran\":\"warga\"}) dan DELETE"
+    },
+    {
+        "id": "ID-04",
+        "group": "Parameter :id",
+        "teknik": "EP",
+        "method": "GET",
+        "url": "/api/akun-warga/-1",
+        "body": null,
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "id",
+                "message": "ID harus berupa angka bulat positif"
+            }
+        ],
+        "catatan": "berlaku juga untuk PUT (body {\"peran\":\"warga\"}) dan DELETE"
+    },
+    {
+        "id": "ID-05",
+        "group": "Parameter :id",
+        "teknik": "EP",
+        "method": "GET",
+        "url": "/api/akun-warga/abc",
+        "body": null,
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "id",
+                "message": "ID harus berupa angka bulat positif"
+            }
+        ],
+        "catatan": "berlaku juga untuk PUT (body {\"peran\":\"warga\"}) dan DELETE"
+    },
+    {
+        "id": "ID-06",
+        "group": "Parameter :id",
+        "teknik": "EP",
+        "method": "GET",
+        "url": "/api/akun-warga/1.5",
+        "body": null,
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "id",
+                "message": "ID harus berupa angka bulat positif"
+            }
+        ],
+        "catatan": "berlaku juga untuk PUT (body {\"peran\":\"warga\"}) dan DELETE"
+    },
+    {
+        "id": "ID-07",
+        "group": "Parameter :id",
+        "teknik": "EP",
+        "method": "GET",
+        "url": "/api/akun-warga/01",
+        "body": null,
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "id",
+                "message": "ID harus berupa angka bulat positif"
+            }
+        ],
+        "catatan": "berlaku juga untuk PUT (body {\"peran\":\"warga\"}) dan DELETE"
+    },
+    {
+        "id": "ID-08",
+        "group": "Parameter :id",
+        "teknik": "EP",
+        "method": "GET",
+        "url": "/api/akun-warga/1abc",
+        "body": null,
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "id",
+                "message": "ID harus berupa angka bulat positif"
+            }
+        ],
+        "catatan": "berlaku juga untuk PUT (body {\"peran\":\"warga\"}) dan DELETE"
+    },
+    {
+        "id": "ID-09",
+        "group": "Parameter :id",
+        "teknik": "BVA",
+        "method": "GET",
+        "url": "/api/akun-warga/2147483647",
+        "body": null,
+        "expected_status": 404,
+        "expected_message": "Akun warga dengan id 2147483647 tidak ditemukan",
+        "catatan": "kolom id SERIAL = INTEGER (terverifikasi di schema.sql), batas atas 2147483647"
+    },
+    {
+        "id": "ID-10",
+        "group": "Parameter :id",
+        "teknik": "BVA",
+        "method": "GET",
+        "url": "/api/akun-warga/2147483648",
+        "body": null,
+        "expected_status": 400,
+        "expected_message": "Format data tidak valid, periksa tanggal, jam, atau angka",
+        "catatan": "kolom id SERIAL = INTEGER (terverifikasi di schema.sql), batas atas 2147483647"
+    },
+    {
+        "id": "GETALL-01",
+        "group": "GET all & DELETE",
+        "teknik": "EP",
+        "method": "GET",
+        "url": "/api/akun-warga",
+        "body": null,
+        "expected_status": 200,
+        "expected_message": "Berhasil mengambil semua data akun warga",
+        "catatan": "total = data.length; urut id ASC; item hanya id,warga_id,nama_lengkap,email,peran,created_at; tanpa password_hash"
+    },
+    {
+        "id": "GETID-01",
+        "group": "GET all & DELETE",
+        "teknik": "EP",
+        "method": "GET",
+        "url": "/api/akun-warga/{{AKUN_1}}",
+        "body": null,
+        "expected_status": 200,
+        "expected_message": "Berhasil mengambil data akun warga",
+        "catatan": "tanpa password_hash"
+    },
+    {
+        "id": "DEL-01",
+        "group": "GET all & DELETE",
+        "teknik": "EP",
+        "method": "DELETE",
+        "url": "/api/akun-warga/{{AKUN_6}}",
+        "body": null,
+        "expected_status": 200,
+        "expected_message": "Akun warga berhasil dihapus",
+        "catatan": "data = akun yang dihapus"
+    },
+    {
+        "id": "DEL-02",
+        "group": "GET all & DELETE",
+        "teknik": "EP",
+        "method": "DELETE",
+        "url": "/api/akun-warga/{{AKUN_6}}",
+        "body": null,
+        "expected_status": 404,
+        "expected_message": "Akun warga dengan id {{AKUN_6}} tidak ditemukan"
+    },
+    {
+        "id": "DEL-03",
+        "group": "GET all & DELETE",
+        "teknik": "EP",
+        "method": "GET",
+        "url": "/api/akun-warga/{{AKUN_6}}",
+        "body": null,
+        "expected_status": 404,
+        "expected_message": "Akun warga dengan id {{AKUN_6}} tidak ditemukan"
+    },
+    {
+        "id": "DEL-04",
+        "group": "GET all & DELETE",
+        "teknik": "EP",
+        "method": "POST",
+        "url": "/api/akun-warga",
+        "body": {
+            "warga_id": 6,
+            "email": "warga6.baru@desasukamaju.id",
+            "password": "Rahasia123"
+        },
+        "expected_status": 201,
+        "expected_message": "Akun warga berhasil ditambahkan",
+        "catatan": "warga_id 6 bisa dipakai lagi setelah akun dihapus"
+    },
+    {
+        "id": "DEL-05",
+        "group": "GET all & DELETE",
+        "teknik": "EP",
+        "method": "DELETE",
+        "url": "/api/akun-warga/9999",
+        "body": null,
+        "expected_status": 404,
+        "expected_message": "Akun warga dengan id 9999 tidak ditemukan"
+    },
+    {
+        "id": "DEL-06",
+        "group": "GET all & DELETE",
+        "teknik": "EP",
+        "method": "DELETE",
+        "url": "/api/akun-warga/abc",
+        "body": null,
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "id",
+                "message": "ID harus berupa angka bulat positif"
+            }
+        ]
+    },
+    {
+        "id": "DEL-07",
+        "group": "GET all & DELETE",
+        "teknik": "BVA",
+        "method": "DELETE",
+        "url": "/api/akun-warga/0",
+        "body": null,
+        "expected_status": 400,
+        "expected_message": "Data tidak valid",
+        "expected_errors": [
+            {
+                "field": "id",
+                "message": "ID harus berupa angka bulat positif"
+            }
+        ]
+    }
+]
